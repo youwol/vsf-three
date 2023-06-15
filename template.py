@@ -29,7 +29,15 @@ template = Template(
     version=pkg_json["version"],
     shortDescription=pkg_json["description"],
     author=pkg_json["author"],
-    dependencies=Dependencies(runTime=RunTimeDeps(externals=load_dependencies)),
+    dependencies=Dependencies(
+        runTime=RunTimeDeps(externals=load_dependencies),
+        devTime={
+            # `ts-essentials` is used to help the `Immutable` type definition
+            "ts-essentials": "^9.3.1",
+            # `@types/three` required for three.js types definition
+            "@types/three": "^0.152.0",
+        },
+    ),
     bundles=Bundles(
         mainModule=MainModule(
             entryFile="./lib/toolbox.ts",
