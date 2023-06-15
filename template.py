@@ -44,7 +44,7 @@ template = Template(
             loadDependencies=["@youwol/vsf-core", "rxjs", "three"],
         ),
     ),
-    userGuide=True,
+    userGuide=False,
 )
 
 generate_template(template)
