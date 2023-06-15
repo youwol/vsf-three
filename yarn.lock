@@ -1222,15 +1222,16 @@
     ts-node "^10.9.1"
     typescript "^4.9.5"
 
-"@youwol/vsf-core@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@youwol/vsf-core/-/vsf-core-0.1.1.tgz#d3e257abb32ef90acbe12a3ca1d098844a953824"
-  integrity sha512-XqEDE6SGzkky47B+JIg1t1tawvMuuFM89T/P/1PnaMyuUrLDpuG2SknnEGDixLzhYNnw3/v+MwxFxl/NXU0LBg==
+"@youwol/vsf-core@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@youwol/vsf-core/-/vsf-core-0.1.2.tgz#e7999c0838670a48107ff401d95bc8badb589d02"
+  integrity sha512-YxsyhseaL4AB+guBRN7NKzGSEX/O84sX4DU9gOy8ZL3ltsoeQlZLAMx5EIROWB6RRsEJjU5/Thdw+Me0C+Zx6w==
   dependencies:
     "@youwol/cdn-client" "^2.0.4"
     "@youwol/fv-tree" "^0.2.3"
     "@youwol/logging" "^0.1.1"
     rxjs "^6.5.5"
+    ts-essentials "^9.3.1"
 
 abab@^2.0.6:
   version "2.0.6"
