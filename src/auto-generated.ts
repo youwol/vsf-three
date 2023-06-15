@@ -65,8 +65,8 @@ const entries = {
 export const setup = {
     name:'@youwol/vsf-three',
         assetId:'QHlvdXdvbC92c2YtdGhyZWU=',
-    version:'0.1.0-wip',
-    shortDescription:"Visual Studio Flow toolbox wrapping the three.js library",
+    version:'0.1.0',
+    shortDescription:"Visual Studio Flow toolbox wrapping the three.js library.",
     developerDocumentation:'https://platform.youwol.com/applications/@youwol/cdn-explorer/latest?package=@youwol/vsf-three&tab=doc',
     npmPackage:'https://www.npmjs.com/package/@youwol/vsf-three',
     sourceGithub:'https://github.com/youwol/vsf-three',
@@ -111,7 +111,7 @@ export const setup = {
         const parameters = installParameters || {}
         const scripts = [
             ...(parameters.scripts || []),
-            `@youwol/vsf-three#0.1.0-wip~dist/@youwol/vsf-three/${entry.name}.js`
+            `@youwol/vsf-three#0.1.0~dist/@youwol/vsf-three/${entry.name}.js`
         ]
         const modules = [
             ...(parameters.modules || []),
