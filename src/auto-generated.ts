@@ -66,7 +66,7 @@ export const setup = {
     name:'@youwol/vsf-three',
         assetId:'QHlvdXdvbC92c2YtdGhyZWU=',
     version:'0.1.0-wip',
-    shortDescription:"Toolbox wrapping the library three.js",
+    shortDescription:"Visual Studio Flow toolbox wrapping the three.js library",
     developerDocumentation:'https://platform.youwol.com/applications/@youwol/cdn-explorer/latest?package=@youwol/vsf-three&tab=doc',
     npmPackage:'https://www.npmjs.com/package/@youwol/vsf-three',
     sourceGithub:'https://github.com/youwol/vsf-three',
