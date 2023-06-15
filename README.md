@@ -1,6 +1,6 @@
 # @youwol/vsf-three
 
-Visual Studio Flow toolbox wrapping the three.js library
+Visual Studio Flow toolbox wrapping the three.js library.
 
 This library is part of the hybrid cloud/local ecosystem
 [YouWol](https://platform.youwol.com/applications/@youwol/platform/latest).
