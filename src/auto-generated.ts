@@ -70,7 +70,7 @@ export const setup = {
     developerDocumentation:'https://platform.youwol.com/applications/@youwol/cdn-explorer/latest?package=@youwol/vsf-three&tab=doc',
     npmPackage:'https://www.npmjs.com/package/@youwol/vsf-three',
     sourceGithub:'https://github.com/youwol/vsf-three',
-    userGuide:'https://l.youwol.com/doc/@youwol/vsf-three',
+    userGuide:'',
     apiVersion:'01',
     runTimeDependencies,
     externals,
