@@ -71,18 +71,18 @@
  * @module
  */
 
-import { Modules, Attributes } from '@youwol/vsf-core'
+import { Modules, Configurations } from '@youwol/vsf-core'
 import { BoxGeometry } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        width: new Attributes.Float({ value: 1, min: 0 }),
-        height: new Attributes.Float({ value: 1, min: 0 }),
-        depth: new Attributes.Float({ value: 1, min: 0 }),
-        widthSegments: new Attributes.Integer({ value: 1, min: 0 }),
-        heightSegments: new Attributes.Integer({ value: 1, min: 0 }),
-        depthSegments: new Attributes.Integer({ value: 1, min: 0 }),
+        width: new Configurations.Float({ value: 1, min: 0 }),
+        height: new Configurations.Float({ value: 1, min: 0 }),
+        depth: new Configurations.Float({ value: 1, min: 0 }),
+        widthSegments: new Configurations.Integer({ value: 1, min: 0 }),
+        heightSegments: new Configurations.Integer({ value: 1, min: 0 }),
+        depthSegments: new Configurations.Integer({ value: 1, min: 0 }),
     },
 }
 

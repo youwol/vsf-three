@@ -71,31 +71,31 @@
  * @module
  */
 
-import { Modules, Attributes } from '@youwol/vsf-core'
+import { Modules, Configurations } from '@youwol/vsf-core'
 import { SphereGeometry } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        radius: new Attributes.Float({ value: 1, min: 0 }),
-        widthSegments: new Attributes.Integer({ value: 8 }),
-        heightSegments: new Attributes.Integer({ value: 6 }),
-        phiStart: new Attributes.Float({
+        radius: new Configurations.Float({ value: 1, min: 0 }),
+        widthSegments: new Configurations.Integer({ value: 8 }),
+        heightSegments: new Configurations.Integer({ value: 6 }),
+        phiStart: new Configurations.Float({
             value: 0,
             min: 0,
             max: 2 * Math.PI,
         }),
-        phiLength: new Attributes.Float({
+        phiLength: new Configurations.Float({
             value: 2 * Math.PI,
             min: 0,
             max: 2 * Math.PI,
         }),
-        thetaStart: new Attributes.Float({
+        thetaStart: new Configurations.Float({
             value: 0,
             min: 0,
             max: Math.PI,
         }),
-        thetaLength: new Attributes.Float({
+        thetaLength: new Configurations.Float({
             value: Math.PI,
             min: 0,
             max: Math.PI,

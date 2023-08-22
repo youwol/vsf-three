@@ -70,21 +70,21 @@
  * @module
  */
 
-import { Modules, Attributes } from '@youwol/vsf-core'
+import { Modules, Configurations } from '@youwol/vsf-core'
 import { TorusKnotGeometry } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        radius: new Attributes.Float({ value: 1, min: 0 }),
-        tube: new Attributes.Float({ value: 0.4 }),
-        tubularSegments: new Attributes.Integer({ value: 64 }),
-        radialSegments: new Attributes.Integer({ value: 8 }),
-        p: new Attributes.Integer({
+        radius: new Configurations.Float({ value: 1, min: 0 }),
+        tube: new Configurations.Float({ value: 0.4 }),
+        tubularSegments: new Configurations.Integer({ value: 64 }),
+        radialSegments: new Configurations.Integer({ value: 8 }),
+        p: new Configurations.Integer({
             value: 2,
             min: 0,
         }),
-        q: new Attributes.Integer({
+        q: new Configurations.Integer({
             value: 3,
             min: 0,
         }),

@@ -55,7 +55,7 @@
  *
  * @module
  */
-import { Modules, Attributes } from '@youwol/vsf-core'
+import { Modules, Configurations } from '@youwol/vsf-core'
 import {
     MeshStandardMaterial,
     DoubleSide,
@@ -68,28 +68,28 @@ import { map } from 'rxjs/operators'
 type SideConf = 'DoubleSide' | 'FrontSide' | 'BackSide'
 
 const materialConfiguration = {
-    transparent: new Attributes.Boolean({ value: false }),
-    opacity: new Attributes.Float({ value: 1 }),
-    visible: new Attributes.Boolean({ value: true }),
-    side: new Attributes.StringLiteral<SideConf>({
+    transparent: new Configurations.Boolean({ value: false }),
+    opacity: new Configurations.Float({ value: 1 }),
+    visible: new Configurations.Boolean({ value: true }),
+    side: new Configurations.StringLiteral<SideConf>({
         value: 'DoubleSide',
     }),
 }
 export const configuration = {
     schema: {
         ...materialConfiguration,
-        color: new Attributes.Integer({ value: 0x3399ff }),
-        wireframe: new Attributes.Boolean({ value: false }),
-        wireframeLinewidth: new Attributes.Integer({ value: 1 }),
-        emissive: new Attributes.Integer({
+        color: new Configurations.Integer({ value: 0x3399ff }),
+        wireframe: new Configurations.Boolean({ value: false }),
+        wireframeLinewidth: new Configurations.Integer({ value: 1 }),
+        emissive: new Configurations.Integer({
             value: 0x3399ff,
         }),
-        emissiveIntensity: new Attributes.Float({
+        emissiveIntensity: new Configurations.Float({
             value: 1,
         }),
-        roughness: new Attributes.Float({ value: 0.2, min: 0, max: 1 }),
-        metalness: new Attributes.Float({ value: 0.3, min: 0, max: 1 }),
-        flatShading: new Attributes.Boolean({
+        roughness: new Configurations.Float({ value: 0.2, min: 0, max: 1 }),
+        metalness: new Configurations.Float({ value: 0.3, min: 0, max: 1 }),
+        flatShading: new Configurations.Boolean({
             value: false,
         }),
     },

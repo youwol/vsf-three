@@ -1144,10 +1144,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@youwol/cdn-client@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@youwol/cdn-client/-/cdn-client-2.0.4.tgz#e09318845ff38d7a83114104fadd0e3b2f83f23d"
-  integrity sha512-GlJ+TZzjvL7JNwuT2jTos2YLrP4jRFqgScV9ctOOWagSqZvbwnxAcMC6YSVprd3bZdQ2nLGZ1u9R5P9OTeFZvg==
+"@youwol/cdn-client@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@youwol/cdn-client/-/cdn-client-2.0.6.tgz#9703e0ac6a4bb7adbc780c259ce70bc4e34f6ba0"
+  integrity sha512-RYhm/1wUiyZ+IQLh7DuN2dxZ6Yu10AZQMuYpgDOU+Lkfj17fWrmXZdluzJGFFYoeMqjCQuTmTYES+Zc03hu4PQ==
   dependencies:
     "@youwol/flux-view" "^1.1.0"
     rxjs "^6.5.5"
@@ -1222,12 +1222,12 @@
     ts-node "^10.9.1"
     typescript "^4.9.5"
 
-"@youwol/vsf-core@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@youwol/vsf-core/-/vsf-core-0.1.2.tgz#e7999c0838670a48107ff401d95bc8badb589d02"
-  integrity sha512-YxsyhseaL4AB+guBRN7NKzGSEX/O84sX4DU9gOy8ZL3ltsoeQlZLAMx5EIROWB6RRsEJjU5/Thdw+Me0C+Zx6w==
+"@youwol/vsf-core@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@youwol/vsf-core/-/vsf-core-0.2.0.tgz#4694d646b9e178478aa705565525b079b9c16cd5"
+  integrity sha512-Xn8OniEseAwJ9OS+8Cz2GXd2NLLRpQa2NgY0kEESLruremmBHRb/CNPugCLYpRE/edD7vmwdF5dbZhn5OScnEw==
   dependencies:
-    "@youwol/cdn-client" "^2.0.4"
+    "@youwol/cdn-client" "^2.0.6"
     "@youwol/fv-tree" "^0.2.3"
     "@youwol/logging" "^0.1.1"
     rxjs "^6.5.5"
