@@ -1,11 +1,11 @@
-import { Modules, Attributes } from '@youwol/vsf-core'
+import { Modules, Configurations, Contracts } from '@youwol/vsf-core'
 import { Object3D } from 'three'
 import { filter, map } from 'rxjs/operators'
 
 const transform3D = (defaultValue: number) => ({
-    x: new Attributes.Float({ value: defaultValue }),
-    y: new Attributes.Float({ value: defaultValue }),
-    z: new Attributes.Float({ value: defaultValue }),
+    x: new Configurations.Float({ value: defaultValue }),
+    y: new Configurations.Float({ value: defaultValue }),
+    z: new Configurations.Float({ value: defaultValue }),
 })
 
 export const configuration = {
@@ -19,12 +19,12 @@ export const configuration = {
 export const inputs = {
     input$: {
         description: 'The object 3D to transform.',
-        contract: Modules.expect.contract<{
+        contract: Contracts.contract<{
             object: Object3D
         }>({
             description: 'Be able to retrieve a Three.Object3D',
             requirements: {
-                object: Modules.expect.instanceOf({
+                object: Contracts.instanceOf({
                     typeName: 'Object3D',
                     Type: Object3D,
                     attNames: ['object', 'object3D'],

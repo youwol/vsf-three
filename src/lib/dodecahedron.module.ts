@@ -71,14 +71,14 @@
  * @module
  */
 
-import { Modules, Attributes } from '@youwol/vsf-core'
+import { Modules, Configurations } from '@youwol/vsf-core'
 import { DodecahedronGeometry } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        radius: new Attributes.Float({ value: 1, min: 0 }),
-        detail: new Attributes.Integer({ value: 0, min: 0 }),
+        radius: new Configurations.Float({ value: 1, min: 0 }),
+        detail: new Configurations.Integer({ value: 0, min: 0 }),
     },
 }
 

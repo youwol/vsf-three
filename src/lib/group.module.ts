@@ -1,4 +1,4 @@
-import { asMutable, Modules } from '@youwol/vsf-core'
+import { asMutable, Modules, Contracts } from '@youwol/vsf-core'
 import { Group, Object3D } from 'three'
 import { map } from 'rxjs/operators'
 
@@ -9,9 +9,9 @@ export const configuration = {
 export const inputs = {
     input$: {
         description: 'Some objects 3D to group',
-        contract: Modules.expect.some<Object3D>({
+        contract: Contracts.some<Object3D>({
             description: 'Be able to retrieve some Three.Object3D only',
-            when: Modules.expect.instanceOf({
+            when: Contracts.instanceOf({
                 typeName: 'Object3D',
                 Type: Object3D,
                 attNames: ['object', 'object3D'],

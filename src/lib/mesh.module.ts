@@ -1,32 +1,32 @@
-import { Modules, Attributes, asMutable } from '@youwol/vsf-core'
+import { Modules, Configurations, Contracts, asMutable } from '@youwol/vsf-core'
 import { BufferGeometry, Material, Mesh } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        id: new Attributes.String({ value: 'mesh' }),
+        id: new Configurations.String({ value: 'mesh' }),
     },
 }
 
 export const inputs = {
     input$: {
         description: 'The material + geometry to create the mesh.',
-        contract: Modules.expect.contract<{
+        contract: Contracts.contract<{
             geometry: BufferGeometry
             material: Material
         }>({
             description:
                 'Be able to retrieve a Three.Material + Three.BufferGeometry',
             requirements: {
-                material: Modules.expect.single({
-                    when: Modules.expect.instanceOf({
+                material: Contracts.single({
+                    when: Contracts.instanceOf({
                         typeName: 'Material',
                         Type: Material,
                         attNames: ['mat', 'material'],
                     }),
                 }),
-                geometry: Modules.expect.single({
-                    when: Modules.expect.instanceOf({
+                geometry: Contracts.single({
+                    when: Contracts.instanceOf({
                         typeName: 'BufferGeometry',
                         Type: BufferGeometry,
                         attNames: ['geom', 'geometry', 'bufferGeometry'],

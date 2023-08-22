@@ -6,15 +6,15 @@
  *
  * @module
  */
-import { Modules, Attributes } from '@youwol/vsf-core'
+import { Modules, Configurations } from '@youwol/vsf-core'
 import { HemisphereLight } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        skyColor: new Attributes.Integer({ value: 0xffffff }),
-        groundColor: new Attributes.Integer({ value: 0xffffff }),
-        intensity: new Attributes.Float({ value: 1 }),
+        skyColor: new Configurations.Integer({ value: 0xffffff }),
+        groundColor: new Configurations.Integer({ value: 0xffffff }),
+        intensity: new Configurations.Float({ value: 1 }),
     },
 }
 

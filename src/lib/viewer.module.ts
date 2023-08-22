@@ -1,4 +1,4 @@
-import { asMutable, Modules } from '@youwol/vsf-core'
+import { asMutable, Contracts, Modules } from '@youwol/vsf-core'
 import { Color, Object3D, PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import { TrackballControls } from './trackball.controls'
 import { ReplaySubject, Subject } from 'rxjs'
@@ -17,12 +17,12 @@ export const configuration = {
 export const inputs = {
     input$: {
         description: 'The object to add.',
-        contract: Modules.expect.contract<{ objects: Object3D[] }>({
+        contract: Contracts.contract<{ objects: Object3D[] }>({
             description: 'Be able to retrieve a Three.Object3D',
             requirements: {
-                objects: Modules.expect.some({
+                objects: Contracts.some({
                     description: 'One or more objects',
-                    when: Modules.expect.instanceOf({
+                    when: Contracts.instanceOf({
                         typeName: 'Object3D',
                         Type: Object3D,
                         attNames: ['object', 'mesh'],
