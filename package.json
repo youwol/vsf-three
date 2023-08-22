@@ -48,13 +48,13 @@
         ]
     },
     "dependencies": {
-        "@youwol/vsf-core": "^0.1.2",
+        "@youwol/vsf-core": "^0.2.0",
         "rxjs": "^6.5.5",
         "three": "^0.152.0"
     },
     "youwol": {
         "cdnDependencies": {
-            "@youwol/vsf-core": "^0.1.2",
+            "@youwol/vsf-core": "^0.2.0",
             "rxjs": "^6.5.5",
             "three": "^0.152.0"
         }

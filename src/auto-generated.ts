@@ -1,7 +1,7 @@
 
 const runTimeDependencies = {
     "externals": {
-        "@youwol/vsf-core": "^0.1.2",
+        "@youwol/vsf-core": "^0.2.0",
         "rxjs": "^6.5.5",
         "three": "^0.152.0"
     },
@@ -11,7 +11,7 @@ const externals = {
     "@youwol/vsf-core": {
         "commonjs": "@youwol/vsf-core",
         "commonjs2": "@youwol/vsf-core",
-        "root": "@youwol/vsf-core_APIv01"
+        "root": "@youwol/vsf-core_APIv02"
     },
     "rxjs": {
         "commonjs": "rxjs",
@@ -34,7 +34,7 @@ const externals = {
 }
 const exportedSymbols = {
     "@youwol/vsf-core": {
-        "apiKey": "01",
+        "apiKey": "02",
         "exportedSymbol": "@youwol/vsf-core"
     },
     "rxjs": {
@@ -65,13 +65,13 @@ const entries = {
 export const setup = {
     name:'@youwol/vsf-three',
         assetId:'QHlvdXdvbC92c2YtdGhyZWU=',
-    version:'0.1.1-wip',
+    version:'0.2.0-wip',
     shortDescription:"Visual Studio Flow toolbox wrapping the three.js library.",
     developerDocumentation:'https://platform.youwol.com/applications/@youwol/cdn-explorer/latest?package=@youwol/vsf-three&tab=doc',
     npmPackage:'https://www.npmjs.com/package/@youwol/vsf-three',
     sourceGithub:'https://github.com/youwol/vsf-three',
     userGuide:'',
-    apiVersion:'01',
+    apiVersion:'02',
     runTimeDependencies,
     externals,
     exportedSymbols,
@@ -96,7 +96,7 @@ export const setup = {
             modules,
             scripts,
         }).then(() => {
-            return window[`@youwol/vsf-three_APIv01`]
+            return window[`@youwol/vsf-three_APIv02`]
         })
     },
     installAuxiliaryModule: ({name, cdnClient, installParameters}:{
@@ -111,7 +111,7 @@ export const setup = {
         const parameters = installParameters || {}
         const scripts = [
             ...(parameters.scripts || []),
-            `@youwol/vsf-three#0.1.1-wip~dist/@youwol/vsf-three/${entry.name}.js`
+            `@youwol/vsf-three#0.2.0-wip~dist/@youwol/vsf-three/${entry.name}.js`
         ]
         const modules = [
             ...(parameters.modules || []),
@@ -122,7 +122,7 @@ export const setup = {
             modules,
             scripts,
         }).then(() => {
-            return window[`@youwol/vsf-three/${entry.name}_APIv01`]
+            return window[`@youwol/vsf-three/${entry.name}_APIv02`]
         })
     },
     getCdnDependencies(name?: string){
