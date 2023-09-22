@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators'
 export const configuration = {
     schema: {
         id: new Configurations.String({ value: 'mesh' }),
+        renderOrder: new Configurations.Integer({ value: 0 }),
     },
 }
 
@@ -45,6 +46,7 @@ export const outputs = (
             const mutableGeom = asMutable<BufferGeometry>(data.geometry)
             const mesh = new Mesh(mutableGeom, data.material)
             mesh.name = configuration.id
+            mesh.renderOrder = configuration.renderOrder
             return {
                 data: mesh,
                 context,
