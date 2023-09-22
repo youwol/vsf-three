@@ -74,7 +74,12 @@ const materialConfiguration = {
     side: new Configurations.StringLiteral<SideConf>({
         value: 'DoubleSide',
     }),
+    polygonOffset: new Configurations.Boolean({
+        value: false,
+    }),
+    polygonOffsetFactor: new Configurations.Integer({ value: 0 }),
 }
+
 export const configuration = {
     schema: {
         ...materialConfiguration,
