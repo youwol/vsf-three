@@ -55,7 +55,7 @@
  *
  * @module
  */
-import { Modules, Configurations } from '@youwol/vsf-core'
+import { Modules } from '@youwol/vsf-core'
 import {
     MeshStandardMaterial,
     DoubleSide,
@@ -68,33 +68,33 @@ import { map } from 'rxjs/operators'
 type SideConf = 'DoubleSide' | 'FrontSide' | 'BackSide'
 
 const materialConfiguration = {
-    transparent: new Configurations.Boolean({ value: false }),
-    opacity: new Configurations.Float({ value: 1 }),
-    visible: new Configurations.Boolean({ value: true }),
-    side: new Configurations.StringLiteral<SideConf>({
+    transparent: Modules.booleanAttribute({ value: false }),
+    opacity: Modules.floatAttribute({ value: 1 }),
+    visible: Modules.booleanAttribute({ value: true }),
+    side: Modules.stringLiteralAttribute<SideConf>({
         value: 'DoubleSide',
     }),
-    polygonOffset: new Configurations.Boolean({
+    polygonOffset: Modules.booleanAttribute({
         value: false,
     }),
-    polygonOffsetFactor: new Configurations.Integer({ value: 0 }),
+    polygonOffsetFactor: Modules.integerAttribute({ value: 0 }),
 }
 
 export const configuration = {
     schema: {
         ...materialConfiguration,
-        color: new Configurations.Integer({ value: 0x3399ff }),
-        wireframe: new Configurations.Boolean({ value: false }),
-        wireframeLinewidth: new Configurations.Integer({ value: 1 }),
-        emissive: new Configurations.Integer({
+        color: Modules.integerAttribute({ value: 0x3399ff }),
+        wireframe: Modules.booleanAttribute({ value: false }),
+        wireframeLinewidth: Modules.integerAttribute({ value: 1 }),
+        emissive: Modules.integerAttribute({
             value: 0x3399ff,
         }),
-        emissiveIntensity: new Configurations.Float({
+        emissiveIntensity: Modules.floatAttribute({
             value: 1,
         }),
-        roughness: new Configurations.Float({ value: 0.2, min: 0, max: 1 }),
-        metalness: new Configurations.Float({ value: 0.3, min: 0, max: 1 }),
-        flatShading: new Configurations.Boolean({
+        roughness: Modules.floatAttribute({ value: 0.2, min: 0, max: 1 }),
+        metalness: Modules.floatAttribute({ value: 0.3, min: 0, max: 1 }),
+        flatShading: Modules.booleanAttribute({
             value: false,
         }),
     },

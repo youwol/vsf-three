@@ -1,11 +1,11 @@
-import { Modules, Configurations, Contracts } from '@youwol/vsf-core'
+import { Modules, Contracts } from '@youwol/vsf-core'
 import { Object3D } from 'three'
 import { filter, map } from 'rxjs/operators'
 
 const transform3D = (defaultValue: number) => ({
-    x: new Configurations.Float({ value: defaultValue }),
-    y: new Configurations.Float({ value: defaultValue }),
-    z: new Configurations.Float({ value: defaultValue }),
+    x: Modules.floatAttribute({ value: defaultValue }),
+    y: Modules.floatAttribute({ value: defaultValue }),
+    z: Modules.floatAttribute({ value: defaultValue }),
 })
 
 export const configuration = {

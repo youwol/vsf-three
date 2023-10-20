@@ -71,16 +71,16 @@
  * @module
  */
 
-import { Modules, Configurations } from '@youwol/vsf-core'
+import { Modules } from '@youwol/vsf-core'
 import { PlaneGeometry } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        width: new Configurations.Float({ value: 1, min: 0 }),
-        height: new Configurations.Float({ value: 1, min: 0 }),
-        widthSegments: new Configurations.Integer({ value: 1, min: 1 }),
-        heightSegments: new Configurations.Integer({ value: 1, min: 1 }),
+        width: Modules.floatAttribute({ value: 1, min: 0 }),
+        height: Modules.floatAttribute({ value: 1, min: 0 }),
+        widthSegments: Modules.integerAttribute({ value: 1, min: 1 }),
+        heightSegments: Modules.integerAttribute({ value: 1, min: 1 }),
     },
 }
 

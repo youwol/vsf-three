@@ -71,24 +71,24 @@
  * @module
  */
 
-import { Modules, Configurations } from '@youwol/vsf-core'
+import { Modules } from '@youwol/vsf-core'
 import { CylinderGeometry } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        radiusTop: new Configurations.Float({ value: 1, min: 0 }),
-        radiusBottom: new Configurations.Float({ value: 1, min: 0 }),
-        height: new Configurations.Float({ value: 1, min: 0 }),
-        radialSegments: new Configurations.Integer({ value: 32, min: 0 }),
-        heightSegments: new Configurations.Integer({ value: 1, min: 0 }),
-        openEnded: new Configurations.Boolean({ value: false }),
-        thetaStart: new Configurations.Float({
+        radiusTop: Modules.floatAttribute({ value: 1, min: 0 }),
+        radiusBottom: Modules.floatAttribute({ value: 1, min: 0 }),
+        height: Modules.floatAttribute({ value: 1, min: 0 }),
+        radialSegments: Modules.integerAttribute({ value: 32, min: 0 }),
+        heightSegments: Modules.integerAttribute({ value: 1, min: 0 }),
+        openEnded: Modules.booleanAttribute({ value: false }),
+        thetaStart: Modules.floatAttribute({
             value: 0,
             min: 0,
             max: 2 * Math.PI,
         }),
-        thetaLength: new Configurations.Float({
+        thetaLength: Modules.floatAttribute({
             value: 2 * Math.PI,
             min: 0,
             max: 2 * Math.PI,

@@ -6,19 +6,19 @@
  *
  * @module
  */
-import { Modules, Configurations } from '@youwol/vsf-core'
+import { Modules } from '@youwol/vsf-core'
 import { PointLight } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        color: new Configurations.Integer({ value: 0xffffff }),
-        intensity: new Configurations.Float({ value: 1 }),
-        distance: new Configurations.Float({ value: 0 }),
+        color: Modules.integerAttribute({ value: 0xffffff }),
+        intensity: Modules.floatAttribute({ value: 1 }),
+        distance: Modules.floatAttribute({ value: 0 }),
         position: {
-            x: new Configurations.Float({ value: 0 }),
-            y: new Configurations.Float({ value: 0 }),
-            z: new Configurations.Float({ value: 0 }),
+            x: Modules.floatAttribute({ value: 0 }),
+            y: Modules.floatAttribute({ value: 0 }),
+            z: Modules.floatAttribute({ value: 0 }),
         },
     },
 }

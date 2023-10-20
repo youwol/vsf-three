@@ -1,11 +1,11 @@
-import { Modules, Configurations, Contracts, asMutable } from '@youwol/vsf-core'
+import { Modules, Contracts, asMutable } from '@youwol/vsf-core'
 import { BufferGeometry, Material, Mesh } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        id: new Configurations.String({ value: 'mesh' }),
-        renderOrder: new Configurations.Integer({ value: 0 }),
+        id: Modules.stringAttribute({ value: 'mesh' }),
+        renderOrder: Modules.integerAttribute({ value: 0 }),
     },
 }
 

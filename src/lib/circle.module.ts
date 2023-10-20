@@ -71,21 +71,21 @@
  * @module
  */
 
-import { Modules, Configurations } from '@youwol/vsf-core'
+import { Modules } from '@youwol/vsf-core'
 import { CircleGeometry } from 'three'
 import { map } from 'rxjs/operators'
 
 export const configuration = {
     schema: {
-        radius: new Configurations.Float({ value: 1, min: 0 }),
-        segments: new Configurations.Integer({ value: 32, min: 3 }),
-        heightSegments: new Configurations.Integer({ value: 1, min: 0 }),
-        thetaStart: new Configurations.Float({
+        radius: Modules.floatAttribute({ value: 1, min: 0 }),
+        segments: Modules.integerAttribute({ value: 32, min: 3 }),
+        heightSegments: Modules.integerAttribute({ value: 1, min: 0 }),
+        thetaStart: Modules.floatAttribute({
             value: 0,
             min: 0,
             max: 2 * Math.PI,
         }),
-        thetaLength: new Configurations.Float({
+        thetaLength: Modules.floatAttribute({
             value: 2 * Math.PI,
             min: 0,
             max: 2 * Math.PI,
