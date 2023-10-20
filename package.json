@@ -1,7 +1,7 @@
 {
     "name": "@youwol/vsf-three",
     "description": "Visual Studio Flow toolbox wrapping the three.js library.",
-    "version": "0.2.1",
+    "version": "0.2.2-wip",
     "author": "greinisch@youwol.com",
     "homepage": "https://github.com/youwol/vsf-three#README.md",
     "main": "dist/@youwol/vsf-three.js",
