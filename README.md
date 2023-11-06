@@ -7,7 +7,7 @@ This library is part of the hybrid cloud/local ecosystem
 
 ## Links
 
-
+<!-- no user guide provided -->
 
 [Developers documentation](https://platform.youwol.com/applications/@youwol/cdn-explorer/latest?package=@youwol/vsf-three&tab=doc)
 
@@ -38,6 +38,8 @@ yarn build:prod
 ```
 
 ---
+
+<!-- no specific test configuration documented -->
 
 To run tests:
 
