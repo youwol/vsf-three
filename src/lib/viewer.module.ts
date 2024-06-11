@@ -7,7 +7,7 @@ import {
     getSceneBoundingBox,
     initializeRenderer,
 } from './utils'
-import { VirtualDOM } from '@youwol/flux-view'
+import { AnyVirtualDOM } from '@youwol/rx-vdom'
 import { Context } from '@youwol/logging'
 
 export const configuration = {
@@ -178,8 +178,9 @@ export class State {
     }
 }
 
-function renderHtmlElement(state /*: State*/): VirtualDOM {
+function renderHtmlElement(state /*: State*/): AnyVirtualDOM {
     return {
+        tag: 'div',
         class: 'h-100 w-100',
         disconnectedCallback: () => {
             state.cancelAnimationFrame()
