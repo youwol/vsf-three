@@ -63,6 +63,15 @@ export function defaultLights() {
     return grp
 }
 
+const defaultMaterial = new MeshStandardMaterial({
+    color: 0x156289,
+    opacity: 1,
+    emissive: 0x072534,
+    roughness: 0.5,
+    metalness: 0.0,
+    wireframe: true,
+})
+
 export const inputs = {
     input$: {
         description: 'The object to add.',
@@ -71,10 +80,23 @@ export const inputs = {
             requirements: {
                 objects: Contracts.some({
                     description: 'One or more objects',
-                    when: Contracts.instanceOf({
-                        typeName: 'Object3D',
-                        Type: Object3D,
-                        attNames: ['object', 'mesh'],
+                    when: Contracts.any({
+                        description: 'An Object3D or a BufferGeometry',
+                        when: [
+                            Contracts.instanceOf({
+                                typeName: 'Object3D',
+                                Type: Object3D,
+                                attNames: ['object', 'mesh'],
+                            }),
+                            Contracts.instanceOf({
+                                typeName: 'BufferGeometry',
+                                Type: BufferGeometry,
+                                attNames: ['geometry'],
+                                normalizeTo: (geom: BufferGeometry) => {
+                                    return new Mesh(geom, defaultMaterial)
+                                },
+                            }),
+                        ],
                     }),
                 }),
             },
