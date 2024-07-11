@@ -1,25 +1,3 @@
-import { asMutable, Contracts, Modules } from '@youwol/vsf-core'
-import {
-    AmbientLight,
-    BoxHelper,
-    BufferGeometry,
-    Color,
-    Group,
-    HemisphereLight,
-    LineBasicMaterial,
-    LineSegments,
-    Mesh,
-    MeshStandardMaterial,
-    Object3D,
-    PerspectiveCamera,
-    PointLight,
-    Raycaster,
-    Scene,
-    Vector2,
-    WebGLRenderer,
-    WireframeGeometry,
-} from 'three'
-import { TrackballControls } from './trackball.controls'
 import {
     merge,
     ReplaySubject,
@@ -27,77 +5,41 @@ import {
     Subscription,
     withLatestFrom,
 } from 'rxjs'
-import { fitSceneToContent, initializeRenderer } from './utils'
-import { AnyVirtualDOM } from '@youwol/rx-vdom'
-import { filter } from 'rxjs/operators'
+import {
+    BoxHelper,
+    Color,
+    Group,
+    LineBasicMaterial,
+    LineSegments,
+    Mesh,
+    Object3D,
+    PerspectiveCamera,
+    Raycaster,
+    Scene,
+    Vector2,
+    WebGLRenderer,
+    WireframeGeometry,
+} from 'three'
+import { TrackballControls } from './trackball.controls'
+import { defaultLights, fitSceneToContent, initializeRenderer } from './utils'
 import { Context } from '@youwol/logging'
+import { filter } from 'rxjs/operators'
 
-type DefaultLights = 'none' | 'default'
+export type DefaultLights = 'none' | 'default'
 
-export const configuration = {
-    schema: {
-        defaultLights: Modules.stringLiteralAttribute<DefaultLights, 'final'>({
-            value: 'default',
-        }),
-    },
+export interface SelectorManager {
+    selection$: Subject<{
+        target: Object3D & SelectableTrait
+        event: 'clicked' | 'hovered'
+    }>
 }
 
-export function defaultLights() {
-    const ambientLight = new AmbientLight(0xffffff, 0.5)
-
-    const pointLight0 = new PointLight(0xffffff, 1, 0)
-    pointLight0.name = 'point-light0'
-    pointLight0.position.set(10, 10, 10)
-    const pointLight1 = new PointLight(0xffffff, 1, 0)
-    pointLight1.name = 'point-light1'
-    pointLight1.position.set(-10, 10, -10)
-    const hemLight = new HemisphereLight(0xffffff, 0x000001)
-    hemLight.name = 'hemisphere-light'
-    const grp = new Group()
-    grp.add(ambientLight, hemLight, pointLight0, pointLight1)
-    grp.name = 'Lights'
-    return grp
+export type SelectableTrait = {
+    selectorManager: SelectorManager
 }
 
-const defaultMaterial = new MeshStandardMaterial({
-    color: 0x156289,
-    opacity: 1,
-    emissive: 0x072534,
-    roughness: 0.5,
-    metalness: 0.0,
-    wireframe: true,
-})
-
-export const inputs = {
-    input$: {
-        description: 'The object to add.',
-        contract: Contracts.contract<{ objects: Object3D[] }>({
-            description: 'Be able to retrieve a Three.Object3D',
-            requirements: {
-                objects: Contracts.some({
-                    description: 'One or more objects',
-                    when: Contracts.any({
-                        description: 'An Object3D or a BufferGeometry',
-                        when: [
-                            Contracts.instanceOf({
-                                typeName: 'Object3D',
-                                Type: Object3D,
-                                attNames: ['object', 'mesh'],
-                            }),
-                            Contracts.instanceOf({
-                                typeName: 'BufferGeometry',
-                                Type: BufferGeometry,
-                                attNames: ['geometry'],
-                                normalizeTo: (geom: BufferGeometry) => {
-                                    return new Mesh(geom, defaultMaterial)
-                                },
-                            }),
-                        ],
-                    }),
-                }),
-            },
-        }),
-    },
+function isSelectable(object: Object3D): object is Object3D & SelectableTrait {
+    return object['selectorManager'] !== undefined
 }
 
 export class PluginsGateway {
@@ -109,33 +51,6 @@ export class PluginsGateway {
     mouseMove$ = new Subject<MouseEvent>()
     mouseUp$ = new Subject<MouseEvent>()
     click$ = new Subject<MouseEvent>()
-}
-
-export const outputs = () => ({})
-
-export function module(fwdArgs: Modules.ForwardArgs) {
-    const state = new State({
-        defaultLights:
-            (fwdArgs.configurationInstance?.defaultLights as DefaultLights) ||
-            'default',
-    })
-    const module = new Modules.Implementation(
-        {
-            configuration,
-            inputs,
-            outputs,
-            html: () => renderHtmlElement(state),
-            state,
-        },
-        fwdArgs,
-    )
-    module.inputSlots.input$.preparedMessage$.subscribe((message) => {
-        state.render(
-            asMutable<Object3D[]>(message.data.objects),
-            module.journal.addPage({ title: 'render' }),
-        )
-    })
-    return module
 }
 
 export class State {
@@ -385,59 +300,4 @@ export class State {
             }
         }
     }
-}
-
-function renderHtmlElement(state: State): AnyVirtualDOM {
-    return {
-        tag: 'div',
-        class: 'h-100 w-100',
-        disconnectedCallback: () => {
-            state.disconnectView()
-        },
-        connectedCallback: (div: HTMLDivElement) => {
-            div.addEventListener(
-                'mousedown',
-                (e) => state.pluginsGateway.mouseDown$.next(e),
-                false,
-            )
-            div.addEventListener(
-                'click',
-                (e) => state.pluginsGateway.click$.next(e),
-                false,
-            )
-            div.addEventListener(
-                'mousemove',
-                (e) => state.pluginsGateway.mouseMove$.next(e),
-                false,
-            )
-
-            div.addEventListener(
-                'mouseup',
-                (e) => state.pluginsGateway.mouseUp$.next(e),
-                false,
-            )
-            setTimeout(() => {
-                state.setRenderingDiv(div)
-                const observer = new window['ResizeObserver'](() =>
-                    state.resize(div),
-                )
-                observer.observe(div)
-            }, 0)
-        },
-    }
-}
-
-export interface SelectorManager {
-    selection$: Subject<{
-        target: Object3D & SelectableTrait
-        event: 'clicked' | 'hovered'
-    }>
-}
-
-export type SelectableTrait = {
-    selectorManager: SelectorManager
-}
-
-function isSelectable(object: Object3D): object is Object3D & SelectableTrait {
-    return object['selectorManager'] !== undefined
 }

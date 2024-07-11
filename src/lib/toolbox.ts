@@ -12,7 +12,7 @@ import { module as cylinderModule } from './cylinder.module'
 import { module as dodecahedronModule } from './dodecahedron.module'
 import { module as circleModule } from './circle.module'
 import { module as planeModule } from './plane.module'
-import { module as viewerModule } from './viewer.module'
+import { module as viewerModule } from './viewer/viewer.module'
 import { basePathDoc, urlModuleDoc } from './constants'
 import { setup } from '../auto-generated'
 

@@ -8,6 +8,10 @@ import {
     Scene,
     Vector3,
     WebGLRenderer,
+    AmbientLight,
+    PointLight,
+    HemisphereLight,
+    MeshStandardMaterial,
 } from 'three'
 import { TrackballControls } from './trackball.controls'
 
@@ -188,3 +192,29 @@ export function applyTransformation(object: Object3D, transform: AllTransform) {
 
     return object
 }
+
+export function defaultLights() {
+    const ambientLight = new AmbientLight(0xffffff, 0.5)
+
+    const pointLight0 = new PointLight(0xffffff, 1, 0)
+    pointLight0.name = 'point-light0'
+    pointLight0.position.set(10, 10, 10)
+    const pointLight1 = new PointLight(0xffffff, 1, 0)
+    pointLight1.name = 'point-light1'
+    pointLight1.position.set(-10, 10, -10)
+    const hemLight = new HemisphereLight(0xffffff, 0x000001)
+    hemLight.name = 'hemisphere-light'
+    const grp = new Group()
+    grp.add(ambientLight, hemLight, pointLight0, pointLight1)
+    grp.name = 'Lights'
+    return grp
+}
+
+export const defaultMaterial = new MeshStandardMaterial({
+    color: 0x156289,
+    opacity: 1,
+    emissive: 0x072534,
+    roughness: 0.5,
+    metalness: 0.0,
+    wireframe: true,
+})

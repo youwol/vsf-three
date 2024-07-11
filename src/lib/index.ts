@@ -1,6 +1,6 @@
 export * from './toolbox'
 export * as Material from './material.modules'
-export * as Viewer from './viewer.module'
+export * as Viewer from './viewer/viewer.module'
 export * as Sphere from './sphere.module'
 export * as Mesh from './mesh.module'
 export * as HemisphereLight from './hemisphere-light.module'
