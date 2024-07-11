@@ -36,8 +36,31 @@ import { AnyVirtualDOM } from '@youwol/rx-vdom'
 import { filter } from 'rxjs/operators'
 import { Context } from '@youwol/logging'
 
+type DefaultLights = 'none' | 'default'
+
 export const configuration = {
-    schema: {},
+    schema: {
+        defaultLights: Modules.stringLiteralAttribute<DefaultLights, 'final'>({
+            value: 'default',
+        }),
+    },
+}
+
+export function defaultLights() {
+    const ambientLight = new AmbientLight(0xffffff, 0.5)
+
+    const pointLight0 = new PointLight(0xffffff, 1, 0)
+    pointLight0.name = 'point-light0'
+    pointLight0.position.set(10, 10, 10)
+    const pointLight1 = new PointLight(0xffffff, 1, 0)
+    pointLight1.name = 'point-light1'
+    pointLight1.position.set(-10, 10, -10)
+    const hemLight = new HemisphereLight(0xffffff, 0x000001)
+    hemLight.name = 'hemisphere-light'
+    const grp = new Group()
+    grp.add(ambientLight, hemLight, pointLight0, pointLight1)
+    grp.name = 'Lights'
+    return grp
 }
 
 export const inputs = {
@@ -72,8 +95,12 @@ export class PluginsGateway {
 
 export const outputs = () => ({})
 
-export function module(fwdArgs) {
-    const state = new State()
+export function module(fwdArgs: Modules.ForwardArgs) {
+    const state = new State({
+        defaultLights:
+            (fwdArgs.configurationInstance?.defaultLights as DefaultLights) ||
+            'default',
+    })
     const module = new Modules.Implementation(
         {
             configuration,
@@ -100,6 +127,7 @@ export class State {
     public camera: PerspectiveCamera
     public renderer: WebGLRenderer
     public controls: TrackballControls
+    public readonly defaultLights: DefaultLights
 
     private registeredRenderLoopActions: {
         [key: string]: { action: (Module) => void; instance: unknown }
@@ -107,7 +135,8 @@ export class State {
     private animationFrameHandle: number
     private vdomSubscriptions: Subscription[] = []
 
-    constructor() {
+    constructor(params: { defaultLights: DefaultLights }) {
+        Object.assign(this, params)
         this.scene.background = new Color(0x424242)
     }
 
@@ -173,7 +202,9 @@ export class State {
 
     render(objects: Object3D[], logContext: Context) {
         this.scene.clear()
-
+        if (this.defaultLights === 'default') {
+            this.scene.add(defaultLights())
+        }
         objects.forEach((obj) => {
             this.scene.add(obj)
         })
