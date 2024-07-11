@@ -27,11 +27,7 @@ import {
     Subscription,
     withLatestFrom,
 } from 'rxjs'
-import {
-    fitSceneToContentIfNeeded,
-    getSceneBoundingBox,
-    initializeRenderer,
-} from './utils'
+import { fitSceneToContent, initializeRenderer } from './utils'
 import { AnyVirtualDOM } from '@youwol/rx-vdom'
 import { filter } from 'rxjs/operators'
 import { Context } from '@youwol/logging'
@@ -212,6 +208,7 @@ export class State {
                 controls: this.controls,
                 registeredRenderLoopActions: this.registeredRenderLoopActions,
                 viewerInstance: this,
+                fit: true,
                 onNextFrame: (handle) => (this.animationFrameHandle = handle),
             })
             this.plugRayCaster()
@@ -239,13 +236,7 @@ export class State {
             return
         }
 
-        const fromBBox = this.scene && getSceneBoundingBox(this.scene)
-        fitSceneToContentIfNeeded(
-            fromBBox,
-            this.scene,
-            this.camera,
-            this.controls,
-        )
+        fitSceneToContent(this.scene, this.camera, this.controls)
 
         this.renderer.render(this.scene, this.camera)
         logContext.info('Scene updated', {

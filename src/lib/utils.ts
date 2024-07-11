@@ -56,10 +56,10 @@ export function initializeRenderer({
         controls && controls.update()
         renderer.render(scene, camera)
     }
-    animate()
     if (fit) {
         fitSceneToContent(scene, camera, controls)
     }
+    animate()
     return renderer
 }
 
