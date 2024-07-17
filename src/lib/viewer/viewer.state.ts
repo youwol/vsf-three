@@ -1,10 +1,4 @@
-import {
-    merge,
-    ReplaySubject,
-    Subject,
-    Subscription,
-    withLatestFrom,
-} from 'rxjs'
+import { merge, Subject, Subscription, withLatestFrom } from 'rxjs'
 import {
     BoxHelper,
     Color,
@@ -47,17 +41,6 @@ function isSelectable(object: Object3D): object is Object3D & SelectableTrait {
     return object['selectorManager'] !== undefined
 }
 
-export class PluginsGateway {
-    scene$ = new ReplaySubject<Scene>(1)
-
-    renderingDiv$ = new ReplaySubject<HTMLDivElement>(1)
-    controls$ = new ReplaySubject<TrackballControls>(1)
-    mouseDown$ = new Subject<MouseEvent>()
-    mouseMove$ = new Subject<MouseEvent>()
-    mouseUp$ = new Subject<MouseEvent>()
-    click$ = new Subject<MouseEvent>()
-}
-
 export type RenderingContext = {
     resizeObserver: ResizeObserver
     renderingDiv: HTMLDivElement
@@ -70,14 +53,8 @@ export type RenderingContext = {
 }
 
 export class State {
-    public readonly pluginsGateway = new PluginsGateway()
-
     public readonly scene = new Scene()
     public readonly defaultLights: DefaultLights
-
-    private registeredRenderLoopActions: {
-        [key: string]: { action: (Module) => void; instance: unknown }
-    } = {}
 
     private renderingContexts: RenderingContext[] = []
     private subscriptions: Subscription[] = []
@@ -85,21 +62,6 @@ export class State {
     constructor(params: { defaultLights: DefaultLights }) {
         Object.assign(this, params)
         this.scene.background = new Color(0x424242)
-    }
-
-    addRenderLoopAction(
-        uid: string,
-        instance: unknown,
-        action: (Module) => void,
-    ) {
-        this.registeredRenderLoopActions[uid] = {
-            action: action,
-            instance: instance,
-        }
-    }
-
-    removeRenderLoopAction(uid: string) {
-        delete this.registeredRenderLoopActions[uid]
     }
 
     registerRenderingContext(renderingDiv: HTMLDivElement): RenderingContext {

@@ -32,27 +32,6 @@ export class ViewerView implements VirtualDOM<'div'> {
         this.class = this.viewConfig.class
         this.style = this.viewConfig.style
         this.connectedCallback = (div: HTMLDivElement) => {
-            div.addEventListener(
-                'mousedown',
-                (e) => this.state.pluginsGateway.mouseDown$.next(e),
-                false,
-            )
-            div.addEventListener(
-                'click',
-                (e) => this.state.pluginsGateway.click$.next(e),
-                false,
-            )
-            div.addEventListener(
-                'mousemove',
-                (e) => this.state.pluginsGateway.mouseMove$.next(e),
-                false,
-            )
-
-            div.addEventListener(
-                'mouseup',
-                (e) => this.state.pluginsGateway.mouseUp$.next(e),
-                false,
-            )
             setTimeout(() => {
                 this.state.registerRenderingContext(div)
             }, 0)
