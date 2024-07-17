@@ -21,7 +21,12 @@ import {
     WireframeGeometry,
 } from 'three'
 import { TrackballControls } from './trackball.controls'
-import { defaultLights, fitSceneToContent, initializeRenderer } from './utils'
+import {
+    createRenderingContext,
+    defaultLights,
+    disposeRenderingContext,
+    render,
+} from './utils'
 import { Context } from '@youwol/logging'
 import { filter } from 'rxjs/operators'
 
@@ -53,29 +58,33 @@ export class PluginsGateway {
     click$ = new Subject<MouseEvent>()
 }
 
+export type RenderingContext = {
+    resizeObserver: ResizeObserver
+    renderingDiv: HTMLDivElement
+    canvas: HTMLCanvasElement
+    renderer: WebGLRenderer
+    camera: PerspectiveCamera
+    controls: TrackballControls
+    animationFrameHandle?: number
+    subscriptions: Subscription[]
+}
+
 export class State {
     public readonly pluginsGateway = new PluginsGateway()
 
     public readonly scene = new Scene()
-    public camera: PerspectiveCamera
-    public renderer: WebGLRenderer
-    public controls: TrackballControls
     public readonly defaultLights: DefaultLights
 
     private registeredRenderLoopActions: {
         [key: string]: { action: (Module) => void; instance: unknown }
     } = {}
-    private animationFrameHandle: number
-    private vdomSubscriptions: Subscription[] = []
+
+    private renderingContexts: RenderingContext[] = []
+    private subscriptions: Subscription[] = []
 
     constructor(params: { defaultLights: DefaultLights }) {
         Object.assign(this, params)
         this.scene.background = new Color(0x424242)
-    }
-
-    setRenderingDiv(renderingDiv: HTMLDivElement) {
-        this.init(renderingDiv)
-        this.pluginsGateway.renderingDiv$.next(renderingDiv)
     }
 
     addRenderLoopAction(
@@ -93,45 +102,28 @@ export class State {
         delete this.registeredRenderLoopActions[uid]
     }
 
-    resize(renderingDiv: HTMLDivElement) {
-        this.renderer.setSize(
-            renderingDiv.clientWidth,
-            renderingDiv.clientHeight,
+    registerRenderingContext(renderingDiv: HTMLDivElement): RenderingContext {
+        const renderingContext = createRenderingContext(
+            renderingDiv,
+            this.scene,
         )
-        this.camera.aspect =
-            renderingDiv.clientWidth / renderingDiv.clientHeight
-        this.camera.updateProjectionMatrix()
+        this.renderingContexts.push(renderingContext)
+        this.plugRayCaster(renderingContext)
+        return renderingContext
     }
 
-    init(renderingDiv: HTMLDivElement) {
-        this.camera = new PerspectiveCamera(
-            70,
-            renderingDiv.clientWidth / renderingDiv.clientHeight,
-            0.01,
-            1000,
+    disposeRenderingContext(renderingDiv: HTMLDivElement) {
+        const renderingContext = this.renderingContexts.find(
+            (ctx) => ctx.renderingDiv === renderingDiv,
         )
-        this.camera.position.z = 10
-
-        try {
-            this.controls = new TrackballControls(this.camera, renderingDiv)
-
-            this.pluginsGateway.controls$.next(this.controls)
-            this.renderer = initializeRenderer({
-                renderingDiv,
-                scene: this.scene,
-                camera: this.camera,
-                controls: this.controls,
-                registeredRenderLoopActions: this.registeredRenderLoopActions,
-                viewerInstance: this,
-                fit: true,
-                onNextFrame: (handle) => (this.animationFrameHandle = handle),
-            })
-            this.plugRayCaster()
-            this.initializeSelectables()
-        } catch (e) {
-            console.error('Creation of webGl context failed.')
-            this.renderer = undefined
+        if (!renderingContext) {
+            return
         }
+        disposeRenderingContext(renderingContext)
+        renderingContext.subscriptions.forEach((s) => s.unsubscribe())
+        this.renderingContexts = this.renderingContexts.filter(
+            (ctx) => ctx !== renderingContext,
+        )
     }
 
     render(objects: Object3D[], logContext: Context) {
@@ -142,37 +134,19 @@ export class State {
         objects.forEach((obj) => {
             this.scene.add(obj)
         })
-
-        if (!this.renderer) {
-            logContext.info('No renderer available', {
-                scene: this.scene,
-            })
-            logContext.terminate()
-            return
-        }
-
-        fitSceneToContent(this.scene, this.camera, this.controls)
-
-        this.renderer.render(this.scene, this.camera)
-        logContext.info('Scene updated', {
-            scene: this.scene,
-            renderer: this.renderer,
-        })
         this.initializeSelectables()
-        logContext.terminate()
+
+        this.renderingContexts.forEach((renderingCtx) => {
+            render(renderingCtx, this.scene, logContext)
+        })
     }
 
-    public disconnectView() {
-        cancelAnimationFrame(this.animationFrameHandle)
-        this.vdomSubscriptions.forEach((s) => s.unsubscribe())
-        this.vdomSubscriptions = []
-    }
     private initializeSelectables() {
         const selectables = this.getSelectableObjects()
         const selections$ = new Set(
             selectables.map((obj) => obj.selectorManager.selection$),
         )
-        this.vdomSubscriptions.push(
+        this.subscriptions.push(
             merge(...selections$).subscribe((obj) => {
                 obj && this.select(obj.target)
                 if (!obj) {
@@ -254,8 +228,8 @@ export class State {
         this.selection = undefined
     }
 
-    private plugRayCaster() {
-        const canvas = this.renderer.domElement
+    private plugRayCaster(renderingContext: RenderingContext) {
+        const canvas = renderingContext.renderer.domElement
         const raycaster = new Raycaster()
         const mouse = new Vector2()
         const mouseDown$ = new Subject<Date>()
@@ -270,7 +244,7 @@ export class State {
             (ev) => mouseUp$.next({ ev, date: new Date() }),
             false,
         )
-        this.vdomSubscriptions.push(
+        renderingContext.subscriptions.push(
             mouseUp$
                 .pipe(
                     withLatestFrom(mouseDown$),
@@ -286,7 +260,7 @@ export class State {
             mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
             mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
 
-            raycaster.setFromCamera(mouse, this.camera)
+            raycaster.setFromCamera(mouse, renderingContext.camera)
             const intersects = raycaster.intersectObjects(this.scene.children)
 
             if (intersects.length > 0 && isSelectable(intersects[0].object)) {

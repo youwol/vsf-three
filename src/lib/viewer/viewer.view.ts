@@ -31,7 +31,6 @@ export class ViewerView implements VirtualDOM<'div'> {
         this.viewConfig = this.viewConfig || defaultViewConfig
         this.class = this.viewConfig.class
         this.style = this.viewConfig.style
-
         this.connectedCallback = (div: HTMLDivElement) => {
             div.addEventListener(
                 'mousedown',
@@ -54,17 +53,12 @@ export class ViewerView implements VirtualDOM<'div'> {
                 (e) => this.state.pluginsGateway.mouseUp$.next(e),
                 false,
             )
-
             setTimeout(() => {
-                this.state.setRenderingDiv(div)
-                const observer = new ResizeObserver(() =>
-                    this.state.resize(div),
-                )
-                observer.observe(div)
+                this.state.registerRenderingContext(div)
             }, 0)
         }
-        this.disconnectedCallback = () => {
-            this.state.disconnectView()
+        this.disconnectedCallback = (div: HTMLDivElement) => {
+            this.state.disposeRenderingContext(div)
         }
     }
 }
