@@ -13,6 +13,8 @@ import { module as dodecahedronModule } from './dodecahedron.module'
 import { module as circleModule } from './circle.module'
 import { module as planeModule } from './plane.module'
 import { module as viewerModule } from './viewer/viewer.module'
+import { module as bufferGeomModule } from './buffer-geometry/buffer-geometry.module'
+
 import { basePathDoc, urlModuleDoc } from './constants'
 import { setup } from '../auto-generated'
 
@@ -167,6 +169,15 @@ export function toolbox() {
                 },
                 implementation: ({ fwdParams }) => {
                     return planeModule(fwdParams)
+                },
+            }),
+            new Modules.Module({
+                declaration: {
+                    typeId: 'bufferGeom',
+                    documentation: urlModuleDoc('BufferGeometry'),
+                },
+                implementation: ({ fwdParams }) => {
+                    return bufferGeomModule(fwdParams)
                 },
             }),
         ],
