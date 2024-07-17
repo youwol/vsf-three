@@ -1,9 +1,9 @@
 import { asMutable, Contracts, Modules } from '@youwol/vsf-core'
 import { BufferGeometry, Mesh, Object3D } from 'three'
 
-import { AnyVirtualDOM } from '@youwol/rx-vdom'
 import { DefaultLights, State } from './viewer.state'
 import { defaultMaterial } from './utils'
+import { ViewConfig, ViewerView } from './viewer.view'
 
 export const configuration = {
     schema: {
@@ -58,7 +58,8 @@ export function module(fwdArgs: Modules.ForwardArgs) {
             configuration,
             inputs,
             outputs,
-            html: () => renderHtmlElement(state),
+            html: (_instance, viewConfig?: ViewConfig) =>
+                new ViewerView({ state, viewConfig }),
             state,
         },
         fwdArgs,
@@ -70,44 +71,4 @@ export function module(fwdArgs: Modules.ForwardArgs) {
         )
     })
     return module
-}
-
-function renderHtmlElement(state: State): AnyVirtualDOM {
-    return {
-        tag: 'div',
-        class: 'h-100 w-100',
-        disconnectedCallback: () => {
-            state.disconnectView()
-        },
-        connectedCallback: (div: HTMLDivElement) => {
-            div.addEventListener(
-                'mousedown',
-                (e) => state.pluginsGateway.mouseDown$.next(e),
-                false,
-            )
-            div.addEventListener(
-                'click',
-                (e) => state.pluginsGateway.click$.next(e),
-                false,
-            )
-            div.addEventListener(
-                'mousemove',
-                (e) => state.pluginsGateway.mouseMove$.next(e),
-                false,
-            )
-
-            div.addEventListener(
-                'mouseup',
-                (e) => state.pluginsGateway.mouseUp$.next(e),
-                false,
-            )
-            setTimeout(() => {
-                state.setRenderingDiv(div)
-                const observer = new window['ResizeObserver'](() =>
-                    state.resize(div),
-                )
-                observer.observe(div)
-            }, 0)
-        },
-    }
 }
