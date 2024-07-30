@@ -219,6 +219,18 @@ function plugRayCaster(scene: Scene, renderingContext: RenderingContext) {
             }),
     )
     let lastSelector: SelectorManager | undefined
+    const isVisible = (object: Object3D) => {
+        if (!object.visible) {
+            return false
+        }
+        if (object instanceof Mesh && !object.material?.visible) {
+            return false
+        }
+        if (object.parent) {
+            return isVisible(object.parent)
+        }
+        return true
+    }
     const onMouseClick = (event: MouseEvent) => {
         // Calculate mouse position in normalized device coordinates (-1 to +1) for x & y components.
         const rect = canvas.getBoundingClientRect()
@@ -227,9 +239,9 @@ function plugRayCaster(scene: Scene, renderingContext: RenderingContext) {
 
         raycaster.setFromCamera(mouse, renderingContext.camera)
         const intersects = raycaster.intersectObjects(scene.children)
-
-        if (intersects.length > 0 && isSelectable(intersects[0].object)) {
-            const obj = intersects[0].object
+        const visibles = intersects.filter(({ object }) => isVisible(object))
+        if (visibles.length > 0 && isSelectable(visibles[0].object)) {
+            const obj = visibles[0].object
             lastSelector = obj.selectorManager
             obj.selectorManager.selection$.next({
                 target: obj,
